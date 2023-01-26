@@ -1,0 +1,33 @@
+#instalar framework jest
+npm install -D jest typescript ts-jest @types/jest
+
+#iniciar a configuração ts-jest
+npx ts-jest config:init
+
+#instalar React Testing Library
+#React Testing Library baseia-se na DOM Testing Library adicionando APIs para trabalhar com componentes React.
+npm install -D @testing-library/react @testing-library/user-event @testing-library/dom @testing-library/jest-dom
+
+#Dependência de Ambiente JSDOM
+npm install -D jest-environment-jsdom
+
+#quando rodar o teste DOM vai falhar, para resolver criar um arquivo tsconfig.jest.json
+{ "extends": "./tsconfig.json", "compilerOptions": { "jsx": "react-jsx"  }}
+
+#configurar transform para rodar a DOM, editar o arquivo jest.config.js
+"transform": {
+    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        "tsconfig": {
+          "tsconfig": false
+        }
+      }
+    ]
+  }
+
+#configurar setup-jest para fazer o matcher toBeInTheDocument(), criar arquivo src/setup-jest.ts
+#adicionar o conteudo "import '@testing-library/jest-dom'"
+#editar jest.config.js e adicionar setupFilesAfterEnv: ["./src/setup-jest.ts"],
