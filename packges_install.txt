@@ -1,20 +1,23 @@
-#instalar framework jest
+
+### Configurar ambiente de teste ReactJS com Jest, React Testing Library, Eslint, Github Actions
+
+##instalar framework jest
 npm install -D jest typescript ts-jest @types/jest
 
-#iniciar a configuração ts-jest
+##iniciar a configuração ts-jest
 npx ts-jest config:init
 
-#instalar React Testing Library
-#React Testing Library baseia-se na DOM Testing Library adicionando APIs para trabalhar com componentes React.
+##instalar React Testing Library
+##React Testing Library baseia-se na DOM Testing Library adicionando APIs para trabalhar com componentes React.
 npm install -D @testing-library/react @testing-library/user-event @testing-library/dom @testing-library/jest-dom
 
-#Dependência de Ambiente JSDOM
+##Dependência de Ambiente JSDOM
 npm install -D jest-environment-jsdom
 
-#quando rodar o teste DOM vai falhar, para resolver criar um arquivo tsconfig.jest.json
+##quando rodar o teste DOM vai falhar, para resolver criar um arquivo tsconfig.jest.json
 { "extends": "./tsconfig.json", "compilerOptions": { "jsx": "react-jsx"  }}
 
-#configurar transform para rodar a DOM, editar o arquivo jest.config.js
+##configurar transform para rodar a DOM, editar o arquivo jest.config.js
 "transform": {
     // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
     // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
@@ -28,6 +31,48 @@ npm install -D jest-environment-jsdom
     ]
   }
 
-#configurar setup-jest para fazer o matcher toBeInTheDocument(), criar arquivo src/setup-jest.ts
-#adicionar o conteudo "import '@testing-library/jest-dom'"
-#editar jest.config.js e adicionar setupFilesAfterEnv: ["./src/setup-jest.ts"],
+##configurar setup-jest para fazer o matcher toBeInTheDocument(), criar arquivo src/setup-jest.ts
+##adicionar o conteudo "import '@testing-library/jest-dom'"
+##editar jest.config.js e adicionar setupFilesAfterEnv: ["./src/setup-jest.ts"],
+
+### Config Eslint
+## configrar lint para rodar com next
+npm install -D eslint-config-next
+## install plugin eslint para jest
+npm install -D eslint-plugin-jest
+## install plugin eslint para test-library
+npm install -D eslint-plugin-testing-library
+npx eslint --init
+##editar o arquivo .eslintrc.json para ficar parecido com o que tem abaixo
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // "standard-with-typescript"
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "plugin:testing-library/react",
+    "next",
+    "next/core-web-vitals"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  //   "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  }
+}
