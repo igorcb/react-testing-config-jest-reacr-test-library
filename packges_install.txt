@@ -76,3 +76,22 @@ npx eslint --init
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
+
+### Instalar e Configurar Husky para pre-commit
+## Rodar bateria de testes, lints e prettier
+npx mrm@2 lint-staged
+npm install -D lint-staged prettier
+## editar o arquivo package.json
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint --dir src",
+  "test": "jest",
+  "prepare": "husky install",
+  "lint-staged": "lint-staged"
+},
+"lint-staged": {
+  "*.(tsx|ts)": "eslint --cache --fix",
+  "*": "prettier --write --ignore-unknown"
+}
