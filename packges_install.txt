@@ -95,3 +95,44 @@ npm install -D lint-staged prettier
   "*.(tsx|ts)": "eslint --cache --fix",
   "*": "prettier --write --ignore-unknown"
 }
+
+### Configurar Github Actions
+##Dentro do github => Actions => Continuou Integrations
+1. Escolher Nodejs (Continuou Integrations)
+2. on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: "*"
+3. jobs:
+    ...
+    - run: npm ci
+    - run: npm run lint
+    - run: npm run test:ci
+4. Start Commit and Commit
+
+##Na maquina dev
+git pull
+
+##configurar a cobertura
+##editar jes.config.js
+coverageThreshold: {
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+  }
+
+##editar arquivo package.json
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --dir src",
+    "test": "jest",
+    "test:ci": "jest --coverage --silent --ci",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
